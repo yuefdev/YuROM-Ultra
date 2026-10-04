@@ -1,0 +1,4 @@
+id=wallpaper_capture
+name=Galaxy S10 wallpaper capture fallback
+author=UN1CA contributors
+description=Completes photo wallpaper loading when optional object capture fails.
