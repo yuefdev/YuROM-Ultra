@@ -6,6 +6,7 @@ import io
 import json
 from pathlib import Path
 import sys
+import struct
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -179,6 +180,11 @@ class PublicReleaseTests(unittest.TestCase):
                 self.assertEqual(int(offset), index * twrp.CHUNK // 1024**2)
                 self.assertEqual(int(size), len(block))
                 self.assertEqual(checksum, sha(block))
+                info = archive.getinfo(entry)
+                with path.open('rb') as packed:
+                    packed.seek(info.header_offset + 18)
+                    sizes = struct.unpack('<II', packed.read(8))
+                self.assertNotIn(0xffffffff, sizes, 'Old recovery requires classic per-entry size headers')
                 decoded += block
         self.assertEqual(decoded, content)
 

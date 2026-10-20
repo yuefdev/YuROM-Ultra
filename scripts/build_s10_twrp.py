@@ -23,12 +23,20 @@ def digest(path):
 
 def pack_image(archive, name, stream):
     chunks = []
+    position = stream.tell()
+    end = stream.seek(0, os.SEEK_END)
+    stream.seek(position)
     while first := stream.read(min(CHUNK, 1024**2)):
         index = len(chunks)
         entry = f'images/{name}/{index:04d}.part'
         checksum = hashlib.sha256()
         count = 0
-        with archive.open(entry, 'w', force_zip64=True) as output:
+        info = zipfile.ZipInfo(entry)
+        info.file_size = min(CHUNK, len(first) + end - stream.tell())
+        info.compress_type = archive.compression
+        info._compresslevel = archive.compresslevel
+        # Recovery BusyBox needs classic entry headers even when the directory is ZIP64.
+        with archive.open(info, 'w', force_zip64=False) as output:
             block = first
             while block:
                 output.write(block)
