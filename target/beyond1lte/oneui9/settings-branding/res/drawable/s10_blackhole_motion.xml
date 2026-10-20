@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" android:oneshot="false">
+    <item android:drawable="@drawable/s10_blackhole_00" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_01" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_02" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_03" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_04" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_05" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_06" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_07" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_08" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_09" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_10" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_11" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_12" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_13" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_14" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_15" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_16" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_17" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_18" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_19" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_20" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_21" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_22" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_23" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_24" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_25" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_26" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_27" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_28" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_29" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_30" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_31" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_32" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_33" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_34" android:duration="56" />
+    <item android:drawable="@drawable/s10_blackhole_35" android:duration="56" />
+</animation-list>

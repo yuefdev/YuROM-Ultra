@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "models": {
+    "SM-G970F": {
+      "device": "beyond0lte",
+      "cutout": "M 0,0 H -49.66666666666667 V 38.66666666666667 H 0 V 0 Z @dp @right",
+      "portrait_indicator_padding_dp": 56,
+      "default_density": 480,
+      "native_panel": [1080, 2280],
+      "default_mode": [1080, 2280, 60.000004]
+    },
+    "SM-G973F": {
+      "device": "beyond1lte",
+      "cutout": "M 0,0 H -58 V 42.57142857142857 H 0 V 0 Z @dp @right",
+      "portrait_indicator_padding_dp": 64,
+      "default_density": 420,
+      "native_panel": [1440, 3040],
+      "default_mode": [1080, 2280, 60.000004]
+    },
+    "SM-G975F": {
+      "device": "beyond2lte",
+      "cutout": "M 0,0 H -93.14285714285714 V 40.57142857142857 H 0 V 0 Z @dp @right",
+      "portrait_indicator_padding_dp": 100,
+      "default_density": 420,
+      "native_panel": [1440, 3040],
+      "default_mode": [1080, 2280, 60.000004]
+    }
+  },
+  "geometry_reference": "https://github.com/ExtremeXT/ExtremeROM/tree/2056320784b7d1d88f9e7025f86f7bbd39945d6b/target",
+  "geometry_matches_model_stock_vendor_rro": true
+}

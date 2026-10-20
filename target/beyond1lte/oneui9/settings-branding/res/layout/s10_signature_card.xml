@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:paddingStart="10dp" android:paddingEnd="10dp"
+    android:paddingTop="8dp" android:paddingBottom="14dp">
+    <FrameLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:background="@drawable/s10_signature_surface" android:clipToOutline="true">
+        <!-- Offline-rendered Riftroam frames, animated only while this view is visible. -->
+        <ProgressBar android:layout_width="match_parent" android:layout_height="210dp"
+            android:importantForAccessibility="no" android:indeterminate="true"
+            android:indeterminateOnly="false" android:indeterminateTint="@null"
+            android:indeterminateDrawable="@drawable/s10_blackhole_motion" />
+        <FrameLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+            <!-- A visual contrast toggle, with no hardware or performance side effects. -->
+            <ToggleButton android:id="@+id/s10_signature_scene"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent" android:layout_height="match_parent"
+                android:minHeight="48dp" android:minWidth="0dp"
+                android:paddingStart="20dp" android:paddingEnd="20dp" android:paddingTop="18dp"
+                android:textOff="@string/s10_signature_cinematic" android:textOn="@string/s10_signature_quiet"
+                android:textColor="@color/s10_signature_hint" android:textSize="9sp"
+                android:textAllCaps="false" android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.1" android:gravity="top|start" android:checked="false"
+                android:background="@drawable/s10_blackhole_touch" android:backgroundTint="@null"
+                android:clickable="true" android:focusable="true" android:enabled="true"
+                android:includeFontPadding="false" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:gravity="start"
+                android:paddingStart="20dp" android:paddingEnd="20dp"
+                android:paddingTop="132dp" android:paddingBottom="24dp"
+                android:clickable="false" android:focusable="false">
+                <TextView android:id="@android:id/title" android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/s10_signature_title"
+                    android:textColor="@color/s10_signature_title" android:textSize="21sp"
+                    android:fontFamily="sans-serif-medium" android:includeFontPadding="false" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" android:text="@string/s10_signature_subtitle"
+                    android:textColor="@color/s10_signature_subtitle"
+                    android:textSize="13sp" android:includeFontPadding="false" />
+            </LinearLayout>
+        </FrameLayout>
+    </FrameLayout>
+</FrameLayout>

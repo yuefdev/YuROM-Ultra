@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.artisanrom.control" android:versionCode="1" android:versionName="1.0">
+    <uses-sdk android:minSdkVersion="31" android:targetSdkVersion="35" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+    <application android:label="Artisan Kontrol" android:allowBackup="false" android:supportsRtl="true" android:theme="@android:style/Theme.DeviceDefault">
+        <activity android:name=".ControlActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".PowerActivity" android:exported="true" android:showWhenLocked="true" android:excludeFromRecents="true" />
+        <activity android:name=".ProbeActivity" android:exported="true" android:label="Artisan doğrulama" />
+    </application>
+</manifest>

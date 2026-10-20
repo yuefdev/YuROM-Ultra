@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.sec.android.gallery3d" android:versionCode="2" android:versionName="1.1">
+    <uses-sdk android:minSdkVersion="31" android:targetSdkVersion="35" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <queries>
+        <package android:name="com.google.android.apps.photos" />
+    </queries>
+    <application android:allowBackup="false" android:label="Camera gallery bridge"
+        android:theme="@android:style/Theme.NoDisplay">
+        <activity android:name="org.artisanrom.gallery.GalleryBridge" android:exported="false" />
+        <activity-alias android:name="com.sec.android.gallery3d.app.GalleryActivity"
+            android:targetActivity="org.artisanrom.gallery.GalleryBridge"
+            android:exported="true" android:permission="android.permission.CAMERA" />
+    </application>
+</manifest>

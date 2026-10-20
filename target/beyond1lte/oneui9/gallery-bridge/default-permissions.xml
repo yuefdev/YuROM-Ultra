@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<exceptions>
+    <exception package="com.sec.android.gallery3d">
+        <permission name="android.permission.READ_MEDIA_IMAGES" fixed="false" />
+        <permission name="android.permission.READ_MEDIA_VIDEO" fixed="false" />
+    </exception>
+</exceptions>

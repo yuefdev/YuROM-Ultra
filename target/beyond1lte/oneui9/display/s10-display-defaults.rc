@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+service s10-display-defaults /system/bin/sh /system/etc/s10-display-defaults.sh
+    class late_start
+    user root
+    group root
+    disabled
+    oneshot
+
+on property:sys.boot_completed=1
+    start s10-display-defaults

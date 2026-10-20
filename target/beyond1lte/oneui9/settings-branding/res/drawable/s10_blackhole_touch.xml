@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="@color/s10_signature_ripple">
+    <item>
+        <selector>
+            <item android:state_checked="true">
+                <shape>
+                    <gradient android:angle="90" android:startColor="#F508090F"
+                        android:centerColor="#9908090F" android:endColor="#7708090F" />
+                </shape>
+            </item>
+            <item>
+                <shape>
+                    <gradient android:angle="90" android:startColor="#F508090F"
+                        android:centerColor="#3308090F" android:endColor="#0808090F" />
+                </shape>
+            </item>
+        </selector>
+    </item>
+</ripple>

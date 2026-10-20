@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "id": "experimental-stock-g973f-hwc1",
+  "model": "SM-G973F",
+  "device": "beyond1",
+  "platform": "exynos9820",
+  "donor_build": "S942BXXU4ZZH6",
+  "android_sdk": 37,
+  "vendor_sdk": 31,
+  "partitions": {
+    "system": {"bytes": 5976883200},
+    "vendor": {"bytes": 1153433600},
+    "product": {"bytes": 650117120},
+    "boot": {"bytes": 57671680},
+    "recovery": {"bytes": 67633152},
+    "dtb": {"bytes": 8388608},
+    "dtbo": {"bytes": 8388608},
+    "vbmeta": {"bytes": 65536},
+    "cache": {"bytes": 629145600}
+  },
+  "merged_product": true,
+  "merged_system_ext": true,
+  "data_filesystem": "ext4",
+  "stock_data_encryption": "ice",
+  "data_encryption": "aes-256-xts:aes-256-cts:v2",
+  "data_encryption_migration_requires_clean_data": true,
+  "metadata_backing": "/cache/oneui9-metadata",
+  "repartition": false,
+  "installation_verified": false
+}

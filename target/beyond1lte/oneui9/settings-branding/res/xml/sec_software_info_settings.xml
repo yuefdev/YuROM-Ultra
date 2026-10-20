@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!-- Preserve the pinned donor's preference keys, controllers and system resources. -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:settings="http://schemas.android.com/apk/prv/res/com.android.settings"
+    android:title="@*com.android.settings:string/device_info_software_title"
+    settings:hierarchicalParentFragment="com.samsung.android.settings.deviceinfo.aboutphone.SecMyDeviceInfoFragment"
+    settings:topLevelPreferenceKey="top_level_about_phone">
+    <PreferenceCategory android:title="@string/s10_signature_title"
+        android:layout="@layout/s10_signature_card" android:shouldDisableView="false">
+        <Preference android:key="yurom_github" android:title="YuROM Ultra · GitHub"
+            android:summary="github.com/yuefdev">
+            <intent android:action="android.intent.action.VIEW" android:data="https://github.com/yuefdev" />
+        </Preference>
+        <Preference android:enabled="false"
+            android:title="@*com.android.settings:string/one_ui_version_title"
+            android:key="one_ui_version" android:summary="@*com.android.settings:string/summary_placeholder"
+            android:shouldDisableView="false"
+            settings:controller="com.samsung.android.settings.deviceinfo.softwareinfo.OneUIVersionPreferenceController" />
+        <Preference android:title="@*com.android.settings:string/firmware_version"
+            android:key="android_firmware_version" android:summary="@*com.android.settings:string/summary_placeholder"
+            settings:controller="com.android.settings.deviceinfo.firmwareversion.FirmwareVersionDetailPreferenceController" />
+        <Preference android:title="@*com.android.settings:string/module_version"
+            android:key="module_version" android:summary="@*com.android.settings:string/summary_placeholder"
+            settings:controller="com.android.settings.deviceinfo.firmwareversion.MainlineModuleVersionPreferenceController" />
+        <Preference android:title="@*com.android.settings:string/baseband_version"
+            android:key="base_band" android:summary="@*com.android.settings:string/summary_placeholder"
+            settings:controller="com.android.settings.deviceinfo.firmwareversion.BasebandVersionPreferenceController" />
+        <Preference android:title="@*com.android.settings:string/kernel_version"
+            android:key="kernel_version" android:summary="@*com.android.settings:string/summary_placeholder"
+            settings:controller="com.android.settings.deviceinfo.firmwareversion.KernelVersionPreferenceController" />
+        <Preference android:title="@*com.android.settings:string/build_number"
+            android:key="build_number" android:summary="@*com.android.settings:string/summary_placeholder"
+            settings:allowDividerAbove="true"
+            settings:controller="com.android.settings.deviceinfo.BuildNumberPreferenceController" />
+        <Preference android:enabled="false" android:title="@*com.android.settings:string/selinux_status"
+            android:key="selinux_status" android:shouldDisableView="false"
+            settings:controller="com.samsung.android.settings.deviceinfo.softwareinfo.SELinuxStatusPreferenceController" />
+        <Preference android:enabled="false" android:title="@*com.android.settings:string/knox_version"
+            android:key="knox_version" android:shouldDisableView="false"
+            settings:controller="com.samsung.android.settings.deviceinfo.softwareinfo.KnoxVersionPreferenceController" />
+        <Preference android:enabled="false" android:title="@*com.android.settings:string/omc_version"
+            android:key="omc_version" android:shouldDisableView="false"
+            settings:controller="com.samsung.android.settings.deviceinfo.softwareinfo.OmcVersionPreferenceController" />
+        <com.samsung.android.settings.deviceinfo.softwareinfo.CarrierConfigPreference
+            android:layout="@*com.android.settings:layout/sec_widget_preference_config"
+            android:key="carrier_config_ver" android:shouldDisableView="false" />
+        <Preference android:title="CC mode status" android:key="cc_mode_status"
+            android:fragment="com.samsung.android.settings.deviceinfo.softwareinfo.CCModeStatus"
+            settings:controller="com.samsung.android.settings.deviceinfo.softwareinfo.CCModeStatusPreferenceController" />
+        <com.samsung.android.settings.widget.SecMaxLinesDescriptionPreference android:enabled="false"
+            android:title="@*com.android.settings:string/security_sw_version"
+            android:key="security_sw_version" android:shouldDisableView="false"
+            settings:controller="com.samsung.android.settings.deviceinfo.softwareinfo.SecuritySoftwareVersionPreferenceController" />
+        <Preference android:title="@*com.android.settings:string/security_patch" android:key="security_key"
+            settings:controller="com.android.settings.deviceinfo.firmwareversion.SecurityPatchLevelPreferenceController" />
+    </PreferenceCategory>
+</PreferenceScreen>

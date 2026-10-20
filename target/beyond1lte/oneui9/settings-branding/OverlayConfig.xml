@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<config>
+    <overlay package="com.samsung.android.smartface.overlay" enabled="true" mutable="false" />
+    <overlay package="com.artisanrom.s10.settings.signature" enabled="true" mutable="true" />
+</config>

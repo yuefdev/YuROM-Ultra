@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.artisanrom.s10.settings.signature" android:versionCode="2"
+    android:versionName="1.0">
+    <!-- The pinned Settings has no overlayable declaration. A preinstalled,
+         pre-Q system_ext RRO uses Android's legacy resource-overlay contract. -->
+    <uses-sdk android:minSdkVersion="28" android:targetSdkVersion="28" />
+    <application android:hasCode="false" android:label="YuROM Ultra" />
+    <overlay android:targetPackage="com.android.settings"
+        android:isStatic="false" android:priority="999" />
+</manifest>

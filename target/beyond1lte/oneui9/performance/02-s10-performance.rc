@@ -1,0 +1,15 @@
+# Apply the pinned runtime profile only after Android has completed booting.
+on post-fs-data
+    mkdir /data/vendor/s10-performance 0700 root root
+    restorecon /data/vendor/s10-performance
+
+service vendor.s10-performance /vendor/bin/sh /vendor/etc/s10-performance-profile.sh boot
+    class late_start
+    user root
+    group root
+    disabled
+    oneshot
+    seclabel u:r:vendor_init:s0
+
+on property:sys.boot_completed=1
+    start vendor.s10-performance

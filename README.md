@@ -1,3 +1,20 @@
+# YuROM Ultra V35 Beta
+
+**One UI, your way.** One UI 9 / Android 17 for Exynos Galaxy S10e (SM-G970F),
+S10 (SM-G973F) and S10+ (SM-G975F).
+
+- [Beta downloads and installation](https://github.com/yuefdev/YuROM-Ultra/releases/tag/v35-beta)
+- [Corresponding kernel source and exact configurations](https://github.com/yuefdev/YuROM-Ultra-kernel/tree/release/v35-beta/yurom)
+- [S10 port source and build inputs](target/beyond1lte/oneui9/README.md)
+- [Beta packaging and download reconstruction](BETA_RELEASE.md)
+
+Use only your exact model's files. This is a Beta release; physical acceptance
+and known limitations are recorded per model in the release downloads.
+The original upstream licences and credits are retained below.
+
+<details>
+<summary>Historical upstream ArtisanROM build-system documentation</summary>
+
 <h1 align="center">
   <img loading="lazy" src="readme-res/banner.png"/>
 </h1>
@@ -155,3 +172,5 @@ A special thanks goes to the following for their invaluable contributions in no 
 # ArtisanROM Archive
 - [ArtisanROM Archive Org](https://github.com/ArtisanROM-archive)
 - [Old Sixteen branch](https://github.com/ArtisanROM-archive/ArtisanROM_old)
+
+</details>

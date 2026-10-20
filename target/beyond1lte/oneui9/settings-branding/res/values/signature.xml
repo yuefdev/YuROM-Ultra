@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<resources>
+    <string name="s10_signature_title" translatable="false">YuROM Ultra</string>
+    <string name="s10_signature_subtitle" translatable="false">One UI 9 • Android 17</string>
+    <string name="s10_signature_cinematic" translatable="false">YUROM  ·  SİNEMATİK</string>
+    <string name="s10_signature_quiet" translatable="false">YUROM  ·  SADE</string>
+    <color name="s10_signature_surface">#08090F</color>
+    <color name="s10_signature_title">#FAFAFF</color>
+    <color name="s10_signature_subtitle">#DEE0ED</color>
+    <color name="s10_signature_hint">#C4C7D5</color>
+    <color name="s10_signature_ripple">#33FFE9C7</color>
+    <color name="s10_signature_stroke">#33000000</color>
+</resources>
