@@ -1,17 +1,102 @@
-# YuROM Ultra V35 Beta
+<div align="center">
+  <h1>YuROM Ultra</h1>
+  <p><strong>One UI, your way.</strong></p>
+  <p>A new chapter for the Exynos Galaxy S10e, S10 and S10+.</p>
+  <p>
+    <a href="https://github.com/yuefdev/YuROM-Ultra/releases/tag/v35-r32"><img src="https://img.shields.io/badge/V35_R32-Stable-238636?style=for-the-badge" alt="V35 R32 — Stable release channel"></a>
+    <img src="https://img.shields.io/badge/One_UI-9-2563eb?style=for-the-badge" alt="One UI 9">
+    <img src="https://img.shields.io/badge/Android-17-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Android 17">
+    <a href="LICENSE"><img src="https://img.shields.io/badge/Licence-GPLv3-64748b?style=for-the-badge" alt="GNU GPL version 3"></a>
+  </p>
+  <p>
+    <a href="https://github.com/yuefdev/YuROM-Ultra/releases/tag/v35-r32"><strong>Download R32</strong></a>
+    &nbsp;·&nbsp; <a href="RELEASE.md"><strong>Installation guide</strong></a>
+    &nbsp;·&nbsp; <a href="https://github.com/yuefdev/YuROM-Ultra/releases/download/v35-r32/RELEASE_NOTES.md">Release notes</a>
+    &nbsp;·&nbsp; <a href="https://xdaforums.com/t/4805709/">XDA discussion</a>
+  </p>
+</div>
 
-**One UI, your way.** One UI 9 / Android 17 for Exynos Galaxy S10e (SM-G970F),
-S10 (SM-G973F) and S10+ (SM-G975F).
+---
 
-- [Beta downloads and installation](https://github.com/yuefdev/YuROM-Ultra/releases/tag/v35-beta)
-- [Corresponding kernel source and exact configurations](https://github.com/yuefdev/YuROM-Ultra-kernel/tree/release/v35-beta/yurom)
-- [S10 port source and build inputs](target/beyond1lte/oneui9/README.md)
-- [Beta packaging and download reconstruction](BETA_RELEASE.md)
+## Familiar Samsung software. More room to make it yours.
 
-Use only your exact model's files. This is a Beta release; physical acceptance
-and known limitations are recorded per model in the release downloads.
-The original upstream licences and credits are retained below.
+YuROM Ultra brings **One UI 9 / Android 17** to the Exynos S10 family, based on
+donor build `S942BXXU4ZZH6`. Model-specific hardware packages and native YuROM
+controls keep the Samsung experience at the centre.
 
+| What you get | In the ROM |
+| --- | --- |
+| **Built-in controls** | YuROM options inside Samsung Settings: launcher, status bar, lock screen and per-app customisation. |
+| **Adaptive tuning** | Load-aware CPU/GPU controls with thermal limits and rollback; no guaranteed benchmark or battery-life claims. |
+| **Model-specific packages** | Separate vendor, boot and device-tree inputs for each supported Exynos model. |
+| **Samsung apps retained** | Video Library, Interpreter, Calendar, Calculator, Good Lock and Device Care. |
+| **Compatibility work** | Camera/native-library, WebView, Themes, Eye Comfort and media repairs. |
+| **One ROM per model** | The same full payload for fresh userdata and verified original-beta upgrades, with preflight and readback checks. |
+
+## What's new in R32
+
+- Updated Samsung camera integration and native compatibility repairs.
+- Dual-ABI WebView repair, including the Samsung Account web flow.
+- Bluetooth PCM/audio-policy and Galaxy Themes startup repairs.
+- Enforcing init restoration and narrowly scoped real-TEE PDE storage repair.
+- A naturally scheduled Now Brief lock-screen card and normal tap navigation
+  checked on the reference S10; this is **not** blanket Galaxy AI acceptance.
+
+[Read the changes and their validation limits →](https://github.com/yuefdev/YuROM-Ultra/releases/download/v35-r32/RELEASE_NOTES.md)
+
+## Choose your exact device
+
+| Device | Model | Codename | Package checks |
+| --- | --- | --- | --- |
+| Galaxy S10e | **SM-G970F** | `beyond0lte` | [Validation](https://github.com/yuefdev/YuROM-Ultra/releases/download/v35-r32/SM-G970F_VALIDATION.json) |
+| Galaxy S10 | **SM-G973F** | `beyond1lte` | [Validation](https://github.com/yuefdev/YuROM-Ultra/releases/download/v35-r32/SM-G973F_VALIDATION.json) |
+| Galaxy S10+ | **SM-G975F** | `beyond2lte` | [Validation](https://github.com/yuefdev/YuROM-Ultra/releases/download/v35-r32/SM-G975F_VALIDATION.json) |
+
+**Exynos only.** Not for Snapdragon devices, Korean N variants or the S10 5G.
+
+## Download and install
+
+1. Open the **[R32 release](https://github.com/yuefdev/YuROM-Ultra/releases/tag/v35-r32)**
+   and download your model's three transport pieces, matching
+   `INSTALLER_r1.zip`, `DOWNLOADS.json` and `join_yurom.py`.
+2. With **Python 3.11+**, reconstruct and verify the full ROM. For an S10:
+
+   ```sh
+   python join_yurom.py SM-G973F
+   ```
+
+3. Keep the resulting **full ROM ZIP + matching small installer** together.
+   In compatible model-specific TWRP, flash the **small installer**, not a
+   numbered piece or the large ZIP64 ROM.
+
+Read **[the installation guide](RELEASE.md)** first. Only the exact original,
+model-specific `v35-beta` six-image set supports the data-preserving upgrade.
+Changed source boot/root, other releases and partial flashes are rejected.
+**Do not format for that verified upgrade.** There is no automatic format or
+format-selection menu, and no repartitioning.
+
+> **Before you flash:** Stable is the maintainer's release channel. The full R32
+> ZIP's physical clean-install/original-beta-upgrade checks and S10e/S10+
+> physical acceptance remain pending. Reference S10 runtime checks used a
+> narrower system-only image, not this full family ZIP. Back up externally.
+
+## Source, transparency and credits
+
+- **[ROM source baseline](https://github.com/yuefdev/YuROM-Ultra/tree/f3642b7353c28227a478c8f45e9b860727b02d99)**
+  and [S10 port/build inputs](target/beyond1lte/oneui9/README.md).
+- **[Focused R32 installer/native-compatibility sources](https://github.com/yuefdev/YuROM-Ultra/releases/download/v35-r32/YuROM_Ultra_V35_R32_Installer_Source.zip)**.
+  The baseline and automatic tag archive are **not** a complete committed R32
+  source snapshot. This landing-page update changes documentation only.
+- **[Corresponding unchanged kernel source and exact model configs](https://github.com/yuefdev/YuROM-Ultra-kernel/tree/47d8fbc79c77e05686cb0926f1f66f16a94bd6d9)**.
+  Packaged Magisk 30.7 derivations preserve those kernel/FBE inputs.
+- **[GNU GPL v3](LICENSE)**; external components retain their respective licences.
+
+Thanks to **XGSI, ArtisanROM/UN1CA, ExtremeXT/ExtremeROM, LineageOS, Samsung,
+Team Win/TWRP, EROFS, Android, kernel contributors and testers**. Original
+provenance and detailed upstream credits are preserved below; their historical
+feature list is not a validation claim for this S10 release.
+
+---
 <details>
 <summary>Historical upstream ArtisanROM build-system documentation</summary>
 
