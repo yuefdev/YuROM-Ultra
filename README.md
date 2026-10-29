@@ -9,7 +9,8 @@
     <a href="LICENSE"><img src="https://img.shields.io/badge/Licence-GPLv3-64748b?style=for-the-badge" alt="GNU GPL version 3"></a>
   </p>
   <p>
-    <a href="https://github.com/yuefdev/YuROM-Ultra/releases/tag/v35-r32"><strong>Download R32</strong></a>
+    <a href="https://drive.google.com/drive/folders/1vLh8Ph07n7LyGFLhw2T9XUOmm2U5KwxZ"><strong>Download full ZIPs</strong></a>
+    &nbsp;·&nbsp; <a href="https://github.com/yuefdev/YuROM-Ultra/releases/tag/v35-r32">GitHub mirror</a>
     &nbsp;·&nbsp; <a href="RELEASE.md"><strong>Installation guide</strong></a>
     &nbsp;·&nbsp; <a href="https://github.com/yuefdev/YuROM-Ultra/releases/download/v35-r32/RELEASE_NOTES.md">Release notes</a>
     &nbsp;·&nbsp; <a href="https://xdaforums.com/t/4805709/">XDA discussion</a>
@@ -56,18 +57,22 @@ controls keep the Samsung experience at the centre.
 
 ## Download and install
 
-1. Open the **[R32 release](https://github.com/yuefdev/YuROM-Ultra/releases/tag/v35-r32)**
-   and download your model's three transport pieces, matching
-   `INSTALLER_r1.zip`, `DOWNLOADS.json` and `join_yurom.py`.
-2. With **Python 3.11+**, reconstruct and verify the full ROM. For an S10:
+1. **[Google Drive: complete ZIPs](https://drive.google.com/drive/folders/1vLh8Ph07n7LyGFLhw2T9XUOmm2U5KwxZ)**
+   — open your exact model folder and download the full `*_TWRP.zip` plus
+   its matching `*_INSTALLER_r1.zip`. **No joining or Python is needed.**
+   Verify the SHA256 sidecars; keep the original filenames together.
+2. **[GitHub alternative](https://github.com/yuefdev/YuROM-Ultra/releases/tag/v35-r32)**
+   — download the three transport pieces, matching installer,
+   `DOWNLOADS.json` and `join_yurom.py`. With Python 3.11+, reconstruct the
+   full ROM (example for S10):
 
    ```sh
    python join_yurom.py SM-G973F
    ```
 
-3. Keep the resulting **full ROM ZIP + matching small installer** together.
-   In compatible model-specific TWRP, flash the **small installer**, not a
-   numbered piece or the large ZIP64 ROM.
+3. In compatible model-specific TWRP, flash the **small installer** beside
+   its complete ROM. Do not flash a numbered piece or the large ZIP64 ROM.
+   Do not mix the old Beta/r4/r7 files with R32.
 
 Read **[the installation guide](RELEASE.md)** first. Only the exact original,
 model-specific `v35-beta` six-image set supports the data-preserving upgrade.

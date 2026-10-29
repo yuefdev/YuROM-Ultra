@@ -45,11 +45,24 @@ installers with R32.**
 
 ### Google Drive
 
-The [original Drive folder](https://drive.google.com/drive/folders/1vLh8Ph07n7LyGFLhw2T9XUOmm2U5KwxZ)
-still contains the earlier Beta. **It is not yet a verified R32 mirror.** Use
-the GitHub R32 files until the new full-ZIP mirror is explicitly announced.
-The earlier [v35-beta release](https://github.com/yuefdev/YuROM-Ultra/releases/tag/v35-beta)
-also remains an archive, not an alternative R32 download.
+The **[R32 Drive mirror](https://drive.google.com/drive/folders/1vLh8Ph07n7LyGFLhw2T9XUOmm2U5KwxZ)**
+contains complete ZIPs. Download the full ROM, its matching small
+`INSTALLER_r1.zip`, SHA256 sidecars and `VALIDATION.json` from your exact folder:
+
+| Device | Full ZIP folder |
+| --- | --- |
+| S10e / SM-G970F | [Open Drive folder](https://drive.google.com/drive/folders/1KH4D3dJlZ_tJdBGWeHY_PHKLN2cVFdbJ) |
+| S10 / SM-G973F | [Open Drive folder](https://drive.google.com/drive/folders/1dOxXv9clPfY6UCODNax_VxuzCGkLh_Ta) |
+| S10+ / SM-G975F | [Open Drive folder](https://drive.google.com/drive/folders/1tatTfaFrxppRarjdhJpSWefQDHs90kwt) |
+
+**No part joining or Python is needed for Drive downloads.** If Drive wraps
+multiple selected files in an outer download ZIP, extract that outer ZIP
+and keep the two original ROM/installer ZIPs separate, together and unrenamed.
+
+Previous Beta/r2/r7 files have been moved into the Drive archive without
+permanent deletion. Existing TWRP folders and public model-folder links are
+preserved. The [v35-beta GitHub release](https://github.com/yuefdev/YuROM-Ultra/releases/tag/v35-beta)
+is also historical, not another R32 download.
 
 ## Back up outside the phone
 
