@@ -157,6 +157,13 @@ if $BUILD_ROM; then
 
     if [[ "$TARGET_CODENAME" == "beyond1lte" ]]; then
         CHECK_S10_SOURCE_INPUTS || exit 1
+    elif [[ "$TARGET_CODENAME" == "beyond2lte" ]]; then
+        # Do not accidentally start an S22 donor build for the S10+.
+        # The original G975F kernel and the official S26 Ultra system
+        # must already exist. This is not a bootability certification.
+        python3 "$SRC_DIR/scripts/utils/astropart_s26_preflight.py" \
+            --firmware-dir "$FW_DIR" \
+            --kernel "$SRC_DIR/target/beyond2lte/kernel" || exit 1
     fi
 
     # Capture after firmware/tool preparation and before modifying the work tree.
