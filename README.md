@@ -42,7 +42,7 @@ These are **goals and reported upstream issues**, not claims that Astropart has 
 
 ### No debloating means no silent removal
 
-The desired shipping profile retains stock Samsung applications, Google components, language packs and feature dependencies wherever technically compatible. Upstream files such as `unica/debloat.sh`, `unica/patches/_debloat/` and platform-specific debloat lists are **present in the inherited source until actually removed in a code commit**. Deleting a script does not restore apps already absent from a donor image; those packages require source/provenance, version, signing and framework checks.
+The desired shipping profile retains stock Samsung applications, Google components, language packs and feature dependencies wherever technically compatible. The automatic debloat lists and the `unica/patches/_debloat/` module have now been **removed on the active development branch**, preserving other compatibility patch modules. Other legacy modules can still modify or remove individual files and require separate compatibility reviews. Deleting a script does not restore apps already absent from a donor image; those packages require source/provenance, version, signing and framework checks.
 
 ## Proposed partition budget (SM-G975F)
 
@@ -88,7 +88,9 @@ The inherited S10 source describes a **merged System/Product/System Ext installa
 | `scripts/prepare_s10_samsung_camera.py` | Legacy Samsung Camera compatibility code |
 | `target/beyond1lte/oneui9/display/` | Per-model cutout profiles and one-time display service |
 | `target/beyond1lte/oneui9/installer/` | Inherited recovery installer |
-| `unica/debloat.sh`, `unica/patches/_debloat/` | Inherited automatic debloating (scheduled for removal) |
+| `scripts/astropart_audit.py` | Read-only source, GMS inventory and partition budget preflight |
+| `docs/ASTROPART_PORT_ACCEPTANCE.md` | Verification requirements and unresolved hardware-dependent work |
+| `unica/debloat.sh`, `unica/patches/_debloat/` | Removed in the development branch; absent from new source tree |
 | `scripts/tests/` | Host-side regression and packaging tests |
 | `.github/workflows/` | Inherited automation; a successful workflow is not proof of phone bootability |
 
@@ -105,9 +107,9 @@ The inherited S10 source describes a **merged System/Product/System Ext installa
 
 ## Downloads and versioning
 
-**Astropart has no verified installable release yet.** The upstream [YuROM Ultra releases](https://github.com/yuefdev/YuROM-Ultra/releases) belong to the original project; they are not Astropart builds or proof that this fork's changes have been tested. Do not mix an Astropart installer with upstream release image parts.
+**Astropart has no verified installable release yet.** The development branch fixes the automatic debloat pipeline and host-facing display/installer issues, but GMS crashes, S26 Ultra firmware rebase, Galaxy AI, newer Camera, KernelSU Next/SUSFS and PIT changes are not solved or safe to flash. The upstream [YuROM Ultra releases](https://github.com/yuefdev/YuROM-Ultra/releases) belong to the original project; they are not Astropart builds or proof that this fork's changes have been tested. Do not mix an Astropart installer with upstream release image parts.
 
-The starting branch in this fork is `release/v35-beta`. Upstream tags and release notes can be more recent than the source snapshot inherited here.
+The main source baseline in this fork is `release/v35-beta`. Work toward the 12 reported issues is on `fix/s10-full-feature-compatibility-20261105`. Upstream tags and release notes can be more recent than the source snapshot inherited here.
 
 ## Credits, source, licensing
 
