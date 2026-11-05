@@ -8,6 +8,7 @@ on:
       - 'scripts/astropart_s26_port.py'
       - 'scripts/tests/test_astropart*.py'
       - 'target/beyond1lte/oneui9/**'
+      - 'target/beyond2lte/**'
       - 'unica/**'
       - 'platform/**'
       - '.github/workflows/astropart-compat.yml'
@@ -31,6 +32,8 @@ jobs:
         shell: bash
         run: |
           bash -n scripts/make_rom.sh
+          bash -n target/beyond2lte/config.sh
+          bash -n target/beyond2lte/sff.sh
           sh -n target/beyond1lte/oneui9/installer/update-binary
           sh -n target/beyond1lte/oneui9/display/s10-display-defaults.sh
           python3 -m py_compile scripts/astropart_audit.py scripts/astropart_s26_port.py scripts/tests/test_astropart*.py
