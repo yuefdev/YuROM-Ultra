@@ -19,6 +19,12 @@ Astropart is a fork of [YuROM Ultra](https://github.com/yuefdev/YuROM-Ultra), bu
 
 **Current inherited source:** YuROM Ultra's One UI 9 / Android 17 port with donor build `S942BXXU4ZZH6`. **Target under investigation:** Galaxy S26 Ultra-derived system and Camera components, *not* a completed S26 Ultra firmware port. The existing donor must not be misrepresented as S26 Ultra.
 
+### One UI 9.5 donor research (2026-11-05)
+
+Samsung's public S26 Ultra firmware for **SM-S948B** includes One UI 9 / Android 17 build `S948BXXU5BZJA`. A newer **One UI 9.5** test build, `S948BXXU6ZZK3`, has been reported on Samsung's internal testing servers, but is **not yet publicly available as an installable donor**. Do not substitute an internal build number for a real, checksum-verified firmware package or flash its bootloader/vendor images on an Exynos S10+.
+
+[Samsung public firmware history](https://doc.samsungmobile.com/SM-S948B/037115260310/por-br.html) · [One UI 9.5 internal-build report](https://www.androidauthority.com/galaxy-s26-one-ui-9-5-beta-in-testing-3731840/)
+
 The focus is **SM-G975F / beyond2lte (Galaxy S10+)** first. The inherited project also has model-specific inputs for **SM-G970F / beyond0lte** and **SM-G973F / beyond1lte**; neither should be treated as validated by work on another model. Snapdragon, S10 5G, and other unverified variants are not targets.
 
 ## Development goals
