@@ -11,7 +11,8 @@ on:
           - test
           - release
         default: debug
-  pull_request:
+  # The inherited multi-device workflow is intentionally manual or upstream-branch
+  # only. S10 pull requests run astropart-compat.yml, not six unrelated builds.
   push:
     branches:
       - 'sixteen'
@@ -108,7 +109,7 @@ jobs:
         env:
           PIXELDRAIN_API_KEY: ${{ secrets.PD_API }}
           GH_TOKEN: ${{ secrets.PAT }}
-          RELEASE_REPO: "ArtisanROM/rom_resources"
+          RELEASE_REPO: "${{ github.repository }}"
           BUILD_TYPE: ${{ github.event.inputs.build_type }}
         run: |
           mkdir -p split_tmp

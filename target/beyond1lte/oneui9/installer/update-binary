@@ -11,14 +11,22 @@ MOUNTS=/proc/mounts
 WORK=
 
 case "$OUTFD" in ''|*[!0-9]*) echo 'Invalid recovery output descriptor' >&2; exit 1 ;; esac
-ui() { printf 'ui_print %s\nui_print\n' "$*" >&"$OUTFD"; }
+ui() { printf 'ui_print %s\nui_print\n' "$*" >"/proc/self/fd/$OUTFD"; }
 abort() { ui "ERROR: $*"; exit 1; }
 cleanup() { [ -z "$WORK" ] || rm -rf "$WORK"; }
 trap cleanup EXIT
 trap 'exit 1' HUP INT TERM
 
-ui 'YuROM Ultra One UI 9 - SM-G973F - BETA'
+ui '       ___   _____ ______ ____   ____  _____  ___   ____ _____'
+ui '      / _ | / ___//_  __// __ \/ __ \/ _  / / _ | / _ \/_  /'
+ui '     / __ |/ /__  / /  / /_/ / /_/ / // / / __ |/ , _/ / / '
+ui '    /_/ |_|\___/ /_/  /\____/ .___/\___/ /___/ /_/ |_//___/'
+ui '                           /_/                                  '
+ui '    ASTROPART - EXYNOS GALAXY S10 FAMILY - EXPERIMENTAL'
+ui '--------------------------------------------------------------'
+ui 'Astropart One UI 9 - SM-G973F source template - EXPERIMENTAL'
 ui 'Clean installation only. No automatic userdata format.'
+ui '[1/6] Checking recovery/device identity'
 [ -f "$ZIP" ] || abort 'Recovery did not supply a readable ZIP.'
 for tool in getprop unzip sha256sum dd head readlink awk mktemp sync; do
     command -v "$tool" >/dev/null 2>&1 || abort "Recovery is missing $tool."
@@ -31,12 +39,14 @@ case "$loader" in G973FXX[US][G-Z]*) ;; *) abort 'A G973F HWC1-base (revision G)
 case "$(getprop ro.boot.flash.locked):$(getprop ro.boot.vbmeta.device_state)" in
     1:*|*:locked) abort 'An unlocked bootloader is required.' ;;
 esac
+ui '[2/6] Verifying data state (no automatic formatting)'
 awk -v data="$DATA" '$2 == data && $3 == "ext4" { found=1 } END { exit !found }' "$MOUNTS" ||
     abort 'Format Data in TWRP, then mount the fresh ext4 /data before installing.'
 for directory in system system_ce system_de misc_ce misc_de user user_de data; do
     [ ! -e "$DATA/$directory" ] || abort 'Existing Android userdata found. Back up, then use TWRP Format Data first.'
 done
 ui 'Format Data removes apps, accounts and internal-storage files; this ZIP never performs it.'
+ui '[3/6] Validating manifest and destination capacities'
 WORK="$(mktemp -d /tmp/artisan-install.XXXXXX)" || abort 'Cannot create temporary installer directory.'
 unzip -p "$ZIP" artisan/partitions.tsv > "$WORK/partitions.tsv" || abort 'Cannot read partition manifest.'
 unzip -p "$ZIP" artisan/chunks.tsv > "$WORK/chunks.tsv" || abort 'Cannot read image manifest.'
@@ -78,13 +88,13 @@ while read -r part bytes expected; do
         case "$point" in /system|/system_root|/vendor) abort "Unmount $point in TWRP before installing." ;; esac
     done < "$MOUNTS"
 done < "$WORK/partitions.tsv"
-ui 'Checking every image chunk before flashing. This can take several minutes.'
+ui '[4/6] SHA256 verification of all payload chunks before first write'
 while read -r part offset bytes expected entry; do
     actual="$(unzip -p "$ZIP" "$entry" | sha256sum)" || abort "Cannot read $entry."
     [ "${actual%% *}" = "$expected" ] || abort "Corrupt image chunk: $entry"
 done < "$WORK/chunks.tsv"
 
-ui 'Verified. Writing system, vendor, boot, DTB, DTBO and disabled-AVB metadata.'
+ui '[5/6] Flashing images with per-chunk verification and readback'
 while read -r part offset bytes expected entry; do
     ui "Installing $part (offset $offset MiB)..."
     unzip -p "$ZIP" "$entry" | dd of="$BLOCK_ROOT/$part" bs=1048576 seek="$offset" conv=notrunc,fsync 2>/dev/null ||
@@ -95,6 +105,7 @@ while read -r part offset bytes expected entry; do
     [ "${actual%% *}" = "$expected" ] || abort "Readback mismatch: $part. Restore the matching TWRP backup before booting."
 done < "$WORK/chunks.tsv"
 sync || abort 'Final filesystem sync failed.'
+ui '[6/6] Flash and block-device readback completed successfully'
 ui 'Installation and block-device readback passed.'
 ui 'Userdata, EFS, modem, bootloader and recovery were not written.'
 ui 'Reboot System manually. First boot can take several minutes.'

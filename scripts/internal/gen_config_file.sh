@@ -92,6 +92,19 @@ else
     source "$SRC_DIR/unica/configs/$TARGET_OS_SINGLE_SYSTEM_IMAGE.sh" || exit 1
 fi
 
+# The inherited ESSI profile targets an S22 Ultra (SM-S908B) with Android 16.
+# Astropart's beyond2lte target must never silently use that donor instead of
+# a publicly released SM-S948B Android 17 / One UI 9 package.
+if [[ "$TARGET_CODENAME" == "beyond2lte" ]]; then
+    SOURCE_FIRMWARE="SM-S948B/EUX"
+    SOURCE_EXTRA_FIRMWARES=()
+    SOURCE_PLATFORM_SDK_VERSION=37
+    SOURCE_PRODUCT_SHIPPING_API_LEVEL=36
+    SOURCE_BOARD_API_LEVEL=36
+    # This selects firmware identity only; Snapdragon HALs and bootloader
+    # remain forbidden for the Exynos 9820 target.
+fi
+
 if [ -f "$OUT_DIR/config.sh" ]; then
     LOGW "config.sh already exists. Regenerating"
     rm -f "$OUT_DIR/config.sh"

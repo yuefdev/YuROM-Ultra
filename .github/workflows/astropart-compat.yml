@@ -1,0 +1,60 @@
+name: Astropart S10 source compatibility
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'scripts/astropart_audit.py'
+      - 'scripts/astropart_s26_port.py'
+      - 'scripts/utils/astropart_s26_preflight.py'
+      - 'scripts/tests/test_astropart*.py'
+      - 'target/beyond1lte/oneui9/**'
+      - 'target/beyond2lte/**'
+      - 'unica/**'
+      - 'platform/**'
+      - '.github/workflows/astropart-compat.yml'
+  push:
+    branches:
+      - 'fix/s10-full-feature-compatibility-20261105'
+
+concurrency:
+  group: astropart-source-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  offline-audit:
+    name: Model/package/installer host checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Verify scripts and installer syntax
+        shell: bash
+        run: |
+          bash -n scripts/make_rom.sh
+          bash -n target/beyond2lte/config.sh
+          bash -n target/beyond2lte/sff.sh
+          sh -n target/beyond1lte/oneui9/installer/update-binary
+          sh -n target/beyond1lte/oneui9/display/s10-display-defaults.sh
+          python3 -m py_compile scripts/astropart_audit.py scripts/astropart_s26_port.py scripts/utils/astropart_s26_preflight.py scripts/tests/test_astropart*.py
+      - name: Generate real S10+ build configuration (without firmware downloads)
+        shell: bash
+        run: |
+          set -euo pipefail
+          source ./buildenv.sh beyond2lte
+          [[ "$TARGET_CODENAME" == "beyond2lte" ]]
+          [[ "$SOURCE_FIRMWARE" == "SM-S948B/EUX" ]]
+          [[ "$TARGET_FIRMWARE" == "SM-G975F/AUT" ]]
+          [[ "$TARGET_SUPER_PARTITION_SIZE" == "0" ]]
+          [[ "$TARGET_OS_BUILD_SYSTEM_EXT_PARTITION" == "false" ]]
+      - name: Check source contracts and run tests
+        run: |
+          python3 -m unittest discover -s scripts/tests -p 'test_astropart*.py' -v
+          python3 scripts/astropart_audit.py --strict
+      - name: Detect broken whitespace
+        run: git diff --check HEAD~1 HEAD

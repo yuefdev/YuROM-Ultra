@@ -118,7 +118,19 @@ if $BUILD_ROM; then
     [ -d "$APKTOOL_DIR" ] && rm -rf "$APKTOOL_DIR"
     [ -f "$WORK_DIR/.completed" ] && rm -f "$WORK_DIR/.completed"
 
-    if [[ "$TARGET_FIRMWARE_OFFLINE" == "true" ]]; then
+    if [[ "$TARGET_CODENAME" == "beyond2lte" ]]; then
+        # Do not ask Samsung FUS for a fabricated IMEI/serial, nor download
+        # an unpinned "latest" donor that can silently change the Android API.
+        # The user explicitly imports and verifies the official S26 Ultra and
+        # the original G975F firmware through the stock extraction tooling.
+        for _ASTROPART_FW in SM-S948B_EUX SM-G975F_AUT; do
+            if [[ ! -f "$FW_DIR/$_ASTROPART_FW/.extracted" ]]; then
+                LOGE "Missing extracted $_ASTROPART_FW firmware. Import the authentic Samsung package first."
+                exit 1
+            fi
+        done
+        unset _ASTROPART_FW
+    elif [[ "$TARGET_FIRMWARE_OFFLINE" == "true" ]]; then
         ONLINE_INPUTS=("$SOURCE_FIRMWARE")
         IFS=':' read -r -a SOURCE_EXTRAS <<< "$SOURCE_EXTRA_FIRMWARES"
         ONLINE_INPUTS+=("${SOURCE_EXTRAS[@]}")
@@ -157,6 +169,13 @@ if $BUILD_ROM; then
 
     if [[ "$TARGET_CODENAME" == "beyond1lte" ]]; then
         CHECK_S10_SOURCE_INPUTS || exit 1
+    elif [[ "$TARGET_CODENAME" == "beyond2lte" ]]; then
+        # Do not accidentally start an S22 donor build for the S10+.
+        # The original G975F kernel and the official S26 Ultra system
+        # must already exist. This is not a bootability certification.
+        python3 "$SRC_DIR/scripts/utils/astropart_s26_preflight.py" \
+            --firmware-dir "$FW_DIR" \
+            --kernel "$SRC_DIR/target/beyond2lte/kernel" || exit 1
     fi
 
     # Capture after firmware/tool preparation and before modifying the work tree.
