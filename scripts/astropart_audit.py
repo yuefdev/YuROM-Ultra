@@ -50,7 +50,7 @@ def package_names(path: Path) -> set[str]:
 
 
 def check_source(checkout: Path, model: str, package_list: Path | None = None,
-                 image_dir: Path | None = None) -> dict:
+                 image_dir: Path | None = None, pit_file: Path | None = None) -> dict:
     if model not in MODEL_DEVICE:
         raise ValueError("Unsupported target model")
     checkout = checkout.resolve()
@@ -111,6 +111,31 @@ def check_source(checkout: Path, model: str, package_list: Path | None = None,
             "s26_ultra_oneui_9_5": "only internal test build known; no verifiable public image",
         },
     }
+    if pit_file:
+        # A verified original-model PIT is a read-only reference, NOT an
+        # authorization to modify Userdata, EFS, modem or partition boundaries.
+        from s10_models import MODELS, digest, pit_entries
+        profile = MODELS[model]
+        expected = profile.get("pit")
+        if not expected:
+            raise ValueError("No pinned original PIT hash for this model")
+        if digest(pit_file) != expected:
+            raise ValueError("PIT SHA256 differs from the original SM-G975F stock reference")
+        entries = pit_entries(pit_file.read_bytes())
+        for part in ("system", "vendor", "userdata"):
+            if part not in entries:
+                raise ValueError("Verified PIT is missing partition: " + part)
+        delta_bytes = sum(max(0, PLANNING_MIB[name] * MIB - entries[name]["bytes"])
+                          for name in ("system", "vendor"))
+        report["pit_read_only"] = {
+            "original_pit_sha256": expected,
+            "system_bytes": entries["system"]["bytes"],
+            "vendor_bytes": entries["vendor"]["bytes"],
+            "userdata_bytes": entries["userdata"]["bytes"],
+            "extra_capacity_to_be_sourced_bytes": delta_bytes,
+            "safe_to_repartition": False,
+            "reason": "No validated non-destructive PIT migration or image fitting tests",
+        }
     if package_list:
         installed = package_names(package_list)
         report["package_inventory"] = {
@@ -145,10 +170,12 @@ def main() -> int:
                         help="Optional package names captured from a booted phone")
     parser.add_argument("--image-dir", type=Path,
                         help="Optional built .img files; only measures, never writes")
+    parser.add_argument("--pit", type=Path,
+                        help="Optional original Samsung PIT; SHA256-gated, read-only")
     parser.add_argument("--strict", action="store_true", help="fail for source failures/missing required packages")
     args = parser.parse_args()
     try:
-        report = check_source(args.checkout, args.model, args.package_list, args.image_dir)
+        report = check_source(args.checkout, args.model, args.package_list, args.image_dir, args.pit)
     except (ValueError, OSError, KeyError) as exc:
         print(f"Astropart source audit failed: {exc}", file=sys.stderr)
         return 2
