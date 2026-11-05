@@ -42,6 +42,16 @@ jobs:
           sh -n target/beyond1lte/oneui9/installer/update-binary
           sh -n target/beyond1lte/oneui9/display/s10-display-defaults.sh
           python3 -m py_compile scripts/astropart_audit.py scripts/astropart_s26_port.py scripts/utils/astropart_s26_preflight.py scripts/tests/test_astropart*.py
+      - name: Generate real S10+ build configuration (without firmware downloads)
+        shell: bash
+        run: |
+          set -euo pipefail
+          source ./buildenv.sh beyond2lte
+          [[ "$TARGET_CODENAME" == "beyond2lte" ]]
+          [[ "$SOURCE_FIRMWARE" == "SM-S948B/EUX" ]]
+          [[ "$TARGET_FIRMWARE" == "SM-G975F/AUT" ]]
+          [[ "$TARGET_SUPER_PARTITION_SIZE" == "0" ]]
+          [[ "$TARGET_OS_BUILD_SYSTEM_EXT_PARTITION" == "false" ]]
       - name: Check source contracts and run tests
         run: |
           python3 -m unittest discover -s scripts/tests -p 'test_astropart*.py' -v
