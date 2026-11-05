@@ -45,8 +45,10 @@ jobs:
       - name: Generate real S10+ build configuration (without firmware downloads)
         shell: bash
         run: |
-          set -euo pipefail
+          # The inherited buildenv explicitly reads unset environment variables.
+          set -eo pipefail
           source ./buildenv.sh beyond2lte
+          set -u
           [[ "$TARGET_CODENAME" == "beyond2lte" ]]
           [[ "$SOURCE_FIRMWARE" == "SM-S948B/EUX" ]]
           [[ "$TARGET_FIRMWARE" == "SM-G975F/AUT" ]]
