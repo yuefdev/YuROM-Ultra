@@ -1,0 +1,76 @@
+name: Astropart experimental source prerelease
+
+on:
+  push:
+    branches:
+      - 'fix/s10-full-feature-compatibility-20261105'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  source-prerelease:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[publish-source-preview]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout the exact source commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Verify source tests before publishing
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash -n scripts/make_rom.sh
+          python3 -m unittest discover -s scripts/tests -p 'test_astropart*.py' -v
+          python3 scripts/astropart_audit.py --strict
+      - name: Create source-only GitHub prerelease
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag="astropart-source-20261105-${GITHUB_SHA:0:12}"
+          notes="$RUNNER_TEMP/NOT_FLASHABLE_RELEASE_NOTES.md"
+          artifact="$RUNNER_TEMP/THIS_IS_NOT_A_ROM_IMAGE.txt"
+          cat > "$notes" <<'EOF'
+          # Astropart S10+ — source-only experimental preview
+
+          **NOT FLASHABLE. DO NOT INSTALL THIS RELEASE IN TWRP/ORANGEFOX.**
+
+          This GitHub prerelease contains *source code and tests only*.
+          It is NOT a Samsung firmware image, kernel, recovery ZIP, OTA or
+          verified port. The GitHub-generated source archives cannot be
+          flashed and contain no proprietary Samsung firmware.
+
+          Development target: Samsung Galaxy S10+ SM-G975F (beyond2lte).
+          Planned donor: publicly released Samsung S26 Ultra One UI 9,
+          build S948BXXU5BZJA. One UI 9.5 has no publicly verified
+          installable donor as of November 5, 2026.
+
+          The source branch includes device-specific overlay resources,
+          full-app retention, Camera/GMS inventory, an S26U staging
+          preparer, installer and display changes, and offline tests.
+
+          **Not verified:** Full S26U framework adaptation, SELinux,
+          VINTF, functional modern Camera/GMS/Galaxy AI, KernelSU Next
+          with SUSFS, repartitioning, encryption, telephony, physical
+          first boot or hardware compatibility. These are unresolved.
+
+          Do not treat host CI as proof that a phone boots. No stable
+          or daily-driver build has been produced or distributed.
+          EOF
+          printf 'Astropart source-only prerelease\nCommit: %s\nNOT FLASHABLE\nDo not install any GitHub source archive in Android recovery.\n' \
+            "$GITHUB_SHA" > "$artifact"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Source prerelease already exists for this SHA; refusing to duplicate."
+            exit 0
+          fi
+          gh release create "$tag" "$artifact" \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "Astropart S10+ source preview (NOT FLASHABLE) $tag" \
+            --notes-file "$notes" \
+            --target "$GITHUB_SHA" \
+            --prerelease
