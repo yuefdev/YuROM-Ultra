@@ -17,7 +17,7 @@
 
 Astropart is a fork of [YuROM Ultra](https://github.com/yuefdev/YuROM-Ultra), built to preserve the complete Samsung experience on legacy Exynos 9820 hardware instead of removing apps to satisfy a small partition. The intended approach combines newer One UI components with *verified, model-matched* S10 hardware components and selective compatibility work from [ArtisanROM](https://github.com/ArtisanROM/ArtisanROM), its [older S10 port](https://github.com/ArtisanROM-archive/ArtisanROM_old), and [ExtremeROM](https://github.com/ExtremeXT/ExtremeROM).
 
-**Current inherited source:** YuROM Ultra's One UI 9 / Android 17 port with donor build \`S942BXXU4ZZH6\`. **Target under investigation:** Galaxy S26 Ultra-derived system and Camera components, *not* a completed S26 Ultra firmware port. The existing donor must not be misrepresented as S26 Ultra.
+**Current inherited source:** YuROM Ultra's One UI 9 / Android 17 port with donor build `S942BXXU4ZZH6`. **Target under investigation:** Galaxy S26 Ultra-derived system and Camera components, *not* a completed S26 Ultra firmware port. The existing donor must not be misrepresented as S26 Ultra.
 
 The focus is **SM-G975F / beyond2lte (Galaxy S10+)** first. The inherited project also has model-specific inputs for **SM-G970F / beyond0lte** and **SM-G973F / beyond1lte**; neither should be treated as validated by work on another model. Snapdragon, S10 5G, and other unverified variants are not targets.
 
@@ -28,7 +28,7 @@ These are **goals and reported upstream issues**, not claims that Astropart has 
 | Area | Planned work |
 | --- | --- |
 | Display and camera cutout | Correct S10+ dual-camera geometry, SystemUI spacing, service execution context and punch-hole animations; validate on actual hardware. |
-| Google services | Diagnose repeated \`com.google.android.gms\` crashes; verify GMS, Google Services Framework, Play Store, permissions, signatures, provisioning and dependencies. |
+| Google services | Diagnose repeated `com.google.android.gms` crashes; verify GMS, Google Services Framework, Play Store, permissions, signatures, provisioning and dependencies. |
 | General stability | Fix reproducible framework, HAL, SELinux, graphics, connectivity, audio, power, camera and app crashes. |
 | Root and kernel | Investigate a model-specific **KernelSU Next Legacy** integration with compatible **SUSFS**; do not ship an unbooted kernel. |
 | App retention | **Remove automatic debloating scripts and module invocations** from the build after dependency and partition-size validation; retain Samsung/Google apps and required services. |
@@ -42,7 +42,7 @@ These are **goals and reported upstream issues**, not claims that Astropart has 
 
 ### No debloating means no silent removal
 
-The desired shipping profile retains stock Samsung applications, Google components, language packs and feature dependencies wherever technically compatible. Upstream files such as \`unica/debloat.sh\`, \`unica/patches/_debloat/\` and platform-specific debloat lists are **present in the inherited source until actually removed in a code commit**. Deleting a script does not restore apps already absent from a donor image; those packages require source/provenance, version, signing and framework checks.
+The desired shipping profile retains stock Samsung applications, Google components, language packs and feature dependencies wherever technically compatible. Upstream files such as `unica/debloat.sh`, `unica/patches/_debloat/` and platform-specific debloat lists are **present in the inherited source until actually removed in a code commit**. Deleting a script does not restore apps already absent from a donor image; those packages require source/provenance, version, signing and framework checks.
 
 ## Proposed partition budget (SM-G975F)
 
@@ -72,8 +72,8 @@ The inherited S10 source describes a **merged System/Product/System Ext installa
 
 ## Compatibility and upstream reuse
 
-- **Cutout:** ArtisanROM's archived \`target/beyond2lte/overlay/values/strings.xml\` provides the dual-camera cutout geometry; the inherited YuROM display profile already contains the same path. A wrong cutout on-device can therefore result from *overlay activation, resource priority, SystemUI spacing or recovery-time integration*, not necessarily the path.
-- **SystemUI and Camera assets:** Compare the archived S10+ \`punch_hole_ic_b2\`, \`face_unlocking_cutout_ic_b2\`, and \`lottie_camera_punchcut_timer_b2\` resources with the newer donor's resource names before any adaptation.
+- **Cutout:** ArtisanROM's archived `target/beyond2lte/overlay/values/strings.xml` provides the dual-camera cutout geometry; the inherited YuROM display profile already contains the same path. A wrong cutout on-device can therefore result from *overlay activation, resource priority, SystemUI spacing or recovery-time integration*, not necessarily the path.
+- **SystemUI and Camera assets:** Compare the archived S10+ `punch_hole_ic_b2`, `face_unlocking_cutout_ic_b2`, and `lottie_camera_punchcut_timer_b2` resources with the newer donor's resource names before any adaptation.
 - **Legacy vendor compatibility:** Inspect Exynos 9820-specific audio/camera native libraries, VNDK 31, permissions, VINTF declarations, init and SELinux policies. Do not blindly insert older binary patches into a different donor build.
 - **Google services:** Determine exact package crash causes from logs rather than transplanting arbitrary GMS APKs; retain privileged permission XML and matching signatures.
 - **Current hotfixes:** Review the *latest applicable upstream release and hotfix source* before reimplementing a change. Their published testing on one model does **not** validate the S10+.
@@ -82,15 +82,15 @@ The inherited S10 source describes a **merged System/Product/System Ext installa
 
 | Path | Purpose |
 | --- | --- |
-| \`target/beyond1lte/\` | Inherited S10 hardware build inputs and model-family tooling |
-| \`scripts/s10_models.py\` | Device registry, stock firmware identities and per-model partition reference |
-| \`scripts/prepare_s10_family_candidate.py\` | Model-specific candidate integration |
-| \`scripts/prepare_s10_samsung_camera.py\` | Legacy Samsung Camera compatibility code |
-| \`target/beyond1lte/oneui9/display/\` | Per-model cutout profiles and one-time display service |
-| \`target/beyond1lte/oneui9/installer/\` | Inherited recovery installer |
-| \`unica/debloat.sh\`, \`unica/patches/_debloat/\` | Inherited automatic debloating (scheduled for removal) |
-| \`scripts/tests/\` | Host-side regression and packaging tests |
-| \`.github/workflows/\` | Inherited automation; a successful workflow is not proof of phone bootability |
+| `target/beyond1lte/` | Inherited S10 hardware build inputs and model-family tooling |
+| `scripts/s10_models.py` | Device registry, stock firmware identities and per-model partition reference |
+| `scripts/prepare_s10_family_candidate.py` | Model-specific candidate integration |
+| `scripts/prepare_s10_samsung_camera.py` | Legacy Samsung Camera compatibility code |
+| `target/beyond1lte/oneui9/display/` | Per-model cutout profiles and one-time display service |
+| `target/beyond1lte/oneui9/installer/` | Inherited recovery installer |
+| `unica/debloat.sh`, `unica/patches/_debloat/` | Inherited automatic debloating (scheduled for removal) |
+| `scripts/tests/` | Host-side regression and packaging tests |
+| `.github/workflows/` | Inherited automation; a successful workflow is not proof of phone bootability |
 
 ## Build and test policy
 
@@ -107,7 +107,7 @@ The inherited S10 source describes a **merged System/Product/System Ext installa
 
 **Astropart has no verified installable release yet.** The upstream [YuROM Ultra releases](https://github.com/yuefdev/YuROM-Ultra/releases) belong to the original project; they are not Astropart builds or proof that this fork's changes have been tested. Do not mix an Astropart installer with upstream release image parts.
 
-The starting branch in this fork is \`release/v35-beta\`. Upstream tags and release notes can be more recent than the source snapshot inherited here.
+The starting branch in this fork is `release/v35-beta`. Upstream tags and release notes can be more recent than the source snapshot inherited here.
 
 ## Credits, source, licensing
 
