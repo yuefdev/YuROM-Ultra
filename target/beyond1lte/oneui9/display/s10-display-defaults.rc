@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 service s10-display-defaults /system/bin/sh /system/etc/s10-display-defaults.sh
     class late_start
+    # The inherited init context cannot always call overlay/display services.
+    # Upstream R33 hotfix uses the shell SELinux domain for this exact command.
+    seclabel u:r:shell:s0
     user root
     group root
     disabled

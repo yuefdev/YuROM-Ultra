@@ -1,0 +1,39 @@
+name: Astropart S10 source compatibility
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'scripts/astropart_audit.py'
+      - 'scripts/tests/test_astropart_audit.py'
+      - 'target/beyond1lte/oneui9/**'
+      - 'unica/**'
+      - 'platform/**'
+      - '.github/workflows/astropart-compat.yml'
+  push:
+    branches:
+      - 'fix/s10-full-feature-compatibility-20261105'
+
+permissions:
+  contents: read
+
+jobs:
+  offline-audit:
+    name: Model/package/installer host checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify scripts and installer syntax
+        shell: bash
+        run: |
+          bash -n scripts/make_rom.sh
+          sh -n target/beyond1lte/oneui9/installer/update-binary
+          sh -n target/beyond1lte/oneui9/display/s10-display-defaults.sh
+          python3 -m py_compile scripts/astropart_audit.py scripts/tests/test_astropart_audit.py
+      - name: Check source contracts and run tests
+        run: |
+          python3 -m unittest discover -s scripts/tests -p 'test_astropart_audit.py' -v
+          python3 scripts/astropart_audit.py --strict
+      - name: Detect broken whitespace
+        run: git diff --check HEAD~1 HEAD
