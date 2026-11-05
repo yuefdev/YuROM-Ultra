@@ -17,6 +17,10 @@ on:
     branches:
       - 'fix/s10-full-feature-compatibility-20261105'
 
+concurrency:
+  group: astropart-source-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 

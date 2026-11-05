@@ -11,17 +11,8 @@ on:
           - test
           - release
         default: debug
-  # Full legacy-model matrix is expensive and does not test S10 ports.
-  # Astropart S10 changes use astropart-compat.yml instead.
-  pull_request:
-    paths:
-      - 'target/c1s/**'
-      - 'target/c2s/**'
-      - 'target/r8s/**'
-      - 'target/x1s/**'
-      - 'target/y2s/**'
-      - 'target/z3s/**'
-      - 'platform/exynos990/**'
+  # The inherited multi-device workflow is intentionally manual or upstream-branch
+  # only. S10 pull requests run astropart-compat.yml, not six unrelated builds.
   push:
     branches:
       - 'sixteen'
