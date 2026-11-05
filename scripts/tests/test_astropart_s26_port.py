@@ -49,6 +49,47 @@ class S26UltraPortTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "not public"):
                 preflight_donor(d)
 
+    def test_g975_hardware_target_is_not_s10(self):
+        target = ROOT / "target/beyond2lte"
+        cfg = (target / "config.sh").read_text()
+        self.assertIn('TARGET_CODENAME="beyond2lte"', cfg)
+        self.assertIn('TARGET_ASSERT_MODEL=("SM-G975F")', cfg)
+        self.assertIn('TARGET_FIRMWARE="SM-G975F/AUT"', cfg)
+        self.assertIn('TARGET_SYSTEM_PARTITION_SIZE=5976883200', cfg)
+        self.assertIn('TARGET_VENDOR_PARTITION_SIZE=1153433600', cfg)
+        self.assertNotIn("user-repartition-20260913", cfg)
+        self.assertNotIn("SM-G973F", cfg)
+        self.assertNotIn("/356262101234561", cfg)
+        features = (target / "sff.sh").read_text()
+        self.assertIn("type:b2", features)
+        self.assertIn("siop_beyond2_exynos9820", features)
+        self.assertIn("CONFIG_NAVIGATION_BAR_THEME", features)
+
+    def test_s10plus_overlay_matches_reference_path(self):
+        import xml.etree.ElementTree as ET
+        target = ROOT / "target/beyond2lte/overlay/values"
+        root = ET.parse(target / "strings.xml").getroot()
+        actual = root.find("string[@name='config_mainBuiltInDisplayCutout']").text
+        profiles = json.loads((ROOT / "target/beyond1lte/oneui9/display/profiles.json").read_text())
+        self.assertEqual(actual, profiles["models"]["SM-G975F"]["cutout"])
+        sizes = ET.parse(target / "dimens.xml").getroot()
+        dim_names = {entry.attrib.get("name") for entry in sizes}
+        self.assertIn("status_bar_camera_side_padding", dim_names)
+        self.assertIn("status_bar_height_portrait", dim_names)
+
+    def test_all_three_google_packages_detected(self):
+        with tempfile.TemporaryDirectory() as folder:
+            system = Path(folder)
+            for name in ("PrebuiltGmsCore", "GoogleServicesFramework", "Phonesky"):
+                destination = system / "product" / "priv-app" / name / (name + ".apk")
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                destination.write_bytes(b"fixture")
+            camera = system / CAMERA_APK
+            camera.parent.mkdir(parents=True, exist_ok=True)
+            camera.write_bytes(b"modern-camera-fixture")
+            result = inventory_packages(system)
+            self.assertTrue(all(result[k] for k in ("gms", "gsf", "play_store", "modern_camera")))
+
     def test_pinned_public_donor_is_not_9_5(self):
         self.assertEqual(PUBLIC_BUILDS, frozenset({"S948BXXU5BZJA"}))
 
