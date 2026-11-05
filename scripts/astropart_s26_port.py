@@ -184,14 +184,26 @@ def prepare(donor: Path, stock: Path, kernel: Path, output: Path,
                     raise ValueError("Display default collision: " + relative)
                 dest.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(source, dest)
-                reference = (system / "framework/framework.jar" if relative.startswith("framework/") else
-                             system / "etc/init" / "init.rc" if relative.startswith("etc/init/") else
-                             system / "etc/floating_feature.xml")
-                if not reference.is_file():
-                    raise ValueError("Missing SELinux context reference for display file")
+                if relative.startswith("framework/"):
+                    references = [system / "framework/framework.jar"]
+                elif relative.startswith("etc/init/"):
+                    references = sorted((system / "etc/init").glob("*.rc"))
+                else:
+                    references = [system / "etc/floating_feature.xml"]
+                labels = []
+                for reference in references:
+                    if reference.is_file() and not reference.is_symlink():
+                        try:
+                            labels.append(os.getxattr(reference, "security.selinux"))
+                        except OSError:
+                            continue
+                if not labels:
+                    raise ValueError("No verified SELinux reference for display file: " + relative)
+                if relative.startswith("etc/init/") and len(set(labels)) != 1:
+                    raise ValueError("Conflicting donor init labels; cannot assign display service label")
                 os.chown(dest, 0, 0)
                 os.chmod(dest, 0o644)
-                os.setxattr(dest, "security.selinux", os.getxattr(reference, "security.selinux"))
+                os.setxattr(dest, "security.selinux", labels[0])
         else:
             # Do not represent geometry alone as a finished overlay installation.
             raise ValueError("The compiled S10+ display-defaults bundle is required")
