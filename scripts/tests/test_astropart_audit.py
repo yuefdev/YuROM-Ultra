@@ -46,6 +46,13 @@ class AstropartAuditTests(unittest.TestCase):
             self.assertTrue(report["image_sizes"]["system"]["fits_baseline_capacity"])
             self.assertEqual(report["image_sizes"]["vendor"]["error"], "image not provided")
 
+    def test_unknown_pit_rejected_without_writes(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "untrusted.pit"
+            path.write_bytes(b"not an actual SM-G975F PIT")
+            with self.assertRaisesRegex(ValueError, "PIT SHA256"):
+                check_source(ROOT, "SM-G975F", pit_file=path)
+
     def test_9_5_internal_not_marked_public(self):
         target = next(p for p in S26_DONORS if p["one_ui"] == "9.5")
         self.assertEqual(target["build"], "S948BXXU6ZZK3")
