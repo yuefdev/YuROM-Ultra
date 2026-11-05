@@ -5,7 +5,8 @@ on:
   pull_request:
     paths:
       - 'scripts/astropart_audit.py'
-      - 'scripts/tests/test_astropart_audit.py'
+      - 'scripts/astropart_s26_port.py'
+      - 'scripts/tests/test_astropart*.py'
       - 'target/beyond1lte/oneui9/**'
       - 'unica/**'
       - 'platform/**'
@@ -32,10 +33,10 @@ jobs:
           bash -n scripts/make_rom.sh
           sh -n target/beyond1lte/oneui9/installer/update-binary
           sh -n target/beyond1lte/oneui9/display/s10-display-defaults.sh
-          python3 -m py_compile scripts/astropart_audit.py scripts/tests/test_astropart_audit.py
+          python3 -m py_compile scripts/astropart_audit.py scripts/astropart_s26_port.py scripts/tests/test_astropart*.py
       - name: Check source contracts and run tests
         run: |
-          python3 -m unittest discover -s scripts/tests -p 'test_astropart_audit.py' -v
+          python3 -m unittest discover -s scripts/tests -p 'test_astropart*.py' -v
           python3 scripts/astropart_audit.py --strict
       - name: Detect broken whitespace
         run: git diff --check HEAD~1 HEAD
