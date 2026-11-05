@@ -19,6 +19,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
+          sparse-checkout: |
+            .github/workflows
+            buildenv.sh
+            scripts
+            unica
+            platform
+            target/beyond1lte/oneui9
+            target/beyond2lte
       - name: Verify source tests before publishing
         shell: bash
         run: |

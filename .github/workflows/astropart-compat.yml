@@ -33,6 +33,16 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 2
+          # Avoid checking out gigabytes of firmware, kernel images and
+          # historical target assets for read-only source-level CI.
+          sparse-checkout: |
+            .github/workflows
+            buildenv.sh
+            scripts
+            unica
+            platform
+            target/beyond1lte/oneui9
+            target/beyond2lte
       - name: Verify scripts and installer syntax
         shell: bash
         run: |
@@ -58,5 +68,13 @@ jobs:
         run: |
           python3 -m unittest discover -s scripts/tests -p 'test_astropart*.py' -v
           python3 scripts/astropart_audit.py --strict
+      - name: Verify the full Git tree has no automatic debloat entries
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git ls-tree -r --name-only HEAD | grep -E '(^|/)debloat\.sh$|^unica/patches/_debloat/'; then
+            echo "::error::Automatic debloat found in the complete commit tree"
+            exit 1
+          fi
       - name: Detect broken whitespace
         run: git diff --check HEAD~1 HEAD
