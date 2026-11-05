@@ -29,7 +29,7 @@ jobs:
       - name: Create source-only GitHub prerelease
         shell: bash
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.ASTROPART_RELEASE_TOKEN || github.token }}
         run: |
           set -euo pipefail
           tag="astropart-source-20261105-${GITHUB_SHA:0:12}"
@@ -68,9 +68,12 @@ jobs:
             echo "Source prerelease already exists for this SHA; refusing to duplicate."
             exit 0
           fi
-          gh release create "$tag" "$artifact" \
+          if ! gh release create "$tag" "$artifact" \
             --repo "$GITHUB_REPOSITORY" \
             --title "Astropart S10+ source preview (NOT FLASHABLE) $tag" \
             --notes-file "$notes" \
             --target "$GITHUB_SHA" \
-            --prerelease
+            --prerelease; then
+            echo "::error::Cannot create a prerelease. The repository workflow token lacks Contents: write permissions. Enable Settings -> Actions -> General -> Workflow permissions -> Read and write, or connect a fine-grained ASTROPART_RELEASE_TOKEN secret with Contents: write."
+            exit 1
+          fi
